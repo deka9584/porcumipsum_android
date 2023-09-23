@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.porcumipsum.fragments.GeneratorFragment">
+
+    <LinearLayout style="@style/FrameTitleBar">
+        <TextView style="@style/FrameTitleText"
+            android:text="@string/generator"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:padding="24dp">
+
+            <LinearLayout style="@style/roundedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="12dp">
+
+                <LinearLayout style="@style/inputGroup">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/par_number"
+                        android:textSize="18sp"/>
+
+                    <EditText
+                        android:id="@+id/n_par_input"
+                        android:layout_width="38dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:maxLength="3"/>
+                </LinearLayout>
+
+                <LinearLayout style="@style/inputGroup">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/min_chars"
+                        android:textSize="18sp"/>
+
+                    <EditText
+                        android:id="@+id/min_len_input"
+                        android:layout_width="38dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+                <LinearLayout style="@style/inputGroup"
+                    android:layout_marginBottom="0dp">
+
+                    <CheckBox
+                        android:id="@+id/commas_check"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/insert_commas"
+                        android:layout_gravity="center"
+                        app:buttonTint="@color/sky_500"/>
+
+                    <Button
+                        android:id="@+id/generate_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/generate"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:id="@+id/par_display"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_text"
+                    android:paddingHorizontal="6dp"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progressTint="@color/sky_500"
+                    android:indeterminateTint="@color/sky_500"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

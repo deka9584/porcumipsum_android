@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PorcumIpsum</string>
+    <string name="generator">Generatore</string>
+    <string name="list">Lista</string>
+    <string name="par_number">Numero di paragrafi</string>
+    <string name="min_chars">Caratteri minimi</string>
+    <string name="insert_commas">Inserisci virgole</string>
+    <string name="generate">Genera</string>
+    <string name="start_text">Genera il tuo porcum ipsum</string>
+    <string name="coming_soon">In arrivo</string>
+    <string name="clipboard_copy">Testo scopiazzato negli appunti</string>
+    <string name="invalid_params">Parametri non validi</string>
+    <string name="too_high_numbers">Ellamadonna! Metti dei numeri più bassi</string>
+</resources>
