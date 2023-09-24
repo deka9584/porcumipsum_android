@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.pipsum.R
 import org.porcumipsum.models.GeneratorViewModel
+import org.porcumipsum.utils.PorkUtils
 
 class GeneratorFragment : Fragment() {
     private lateinit var model: GeneratorViewModel
@@ -71,7 +72,8 @@ class GeneratorFragment : Fragment() {
         }
 
         parDisplay?.setOnLongClickListener {
-            copyToClipboard()
+            PorkUtils.copyToClipboard(requireContext(), parDisplay?.text)
+            Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()
             true
         }
     }
@@ -88,13 +90,6 @@ class GeneratorFragment : Fragment() {
         } else {
             model.generatePork(requireContext(), nPar, minLen, commas)
         }
-    }
-
-    private fun copyToClipboard() {
-        val clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText("label", parDisplay?.text)
-        clipboardManager.setPrimaryClip(clipData)
-        Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()
     }
 
     private fun clear() {

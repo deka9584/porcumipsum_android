@@ -50,4 +50,14 @@
         <item name="tint">@color/white</item>
         <item name="android:padding">12dp</item>
     </style>
+
+    <style name="ProgressView" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:progressTint">@color/sky_500</item>
+        <item name="android:indeterminateTint">@color/sky_500</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
 </resources>

@@ -99,14 +99,8 @@
                     android:text="@string/start_text"
                     android:paddingHorizontal="6dp"/>
 
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:progressTint="@color/sky_500"
-                    android:indeterminateTint="@color/sky_500"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"/>
+                <ProgressBar style="@style/ProgressView"
+                    android:id="@+id/progress_bar"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
