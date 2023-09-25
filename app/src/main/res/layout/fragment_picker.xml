@@ -11,54 +11,70 @@
             android:text="@string/picker"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp">
 
-            <NumberPicker
-                android:id="@+id/pre_imp_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <NumberPicker
-                android:id="@+id/saints_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <NumberPicker
-                android:id="@+id/post_imp_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="24dp">
-
-            <ProgressBar style="@style/ProgressView"
-                android:id="@+id/progress_bar"/>
-
-            <TextView
-                android:id="@+id/text_display"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="26sp"
-                android:textAlignment="center"/>
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <NumberPicker
+                    android:id="@+id/pre_imp_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <NumberPicker
+                    android:id="@+id/saints_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <NumberPicker
+                    android:id="@+id/post_imp_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingVertical="24dp">
+
+                <ProgressBar style="@style/ProgressView"
+                    android:id="@+id/progress_bar"/>
+
+                <TextView
+                    android:id="@+id/text_display"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textAlignment="center"/>
+
+                <Space style="@style/spacer"/>
+
+                <Button
+                    android:id="@+id/random_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pick_random"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

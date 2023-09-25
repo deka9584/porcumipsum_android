@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -45,6 +46,7 @@ class PickerFragment : Fragment() {
         val preImpPicker = view.findViewById<NumberPicker>(R.id.pre_imp_picker)
         val saintsPicker = view.findViewById<NumberPicker>(R.id.saints_picker)
         val postImpPicker = view.findViewById<NumberPicker>(R.id.post_imp_picker)
+        val randomBtn = view.findViewById<Button>(R.id.random_button)
 
         textDisplay = view.findViewById(R.id.text_display)
 
@@ -55,40 +57,50 @@ class PickerFragment : Fragment() {
         }
 
         model.loading.observe(viewLifecycleOwner, Observer { status ->
-            progressBar.visibility = if (status) View.VISIBLE else View.GONE
-
-            if (!status) {
+            if (status) {
+                progressBar.visibility = View.VISIBLE
+                textDisplay?.visibility = View.GONE
+            } else {
+                progressBar.visibility = View.GONE
+                textDisplay?.visibility = View.VISIBLE
                 updateText()
             }
         })
 
         model.preImp.observe(viewLifecycleOwner, Observer { list ->
+            preImpPicker.tag = "preImp"
             updatePicker(preImpPicker, list)
-            selection["preImp"] = list.firstOrNull() ?: ""
         })
 
         model.saints.observe(viewLifecycleOwner, Observer { list ->
+            saintsPicker.tag = "saint"
             updatePicker(saintsPicker, list)
-            selection["saint"] = list.firstOrNull() ?: ""
         })
 
         model.postImp.observe(viewLifecycleOwner, Observer { list ->
+            postImpPicker.tag = "postImp"
             updatePicker(postImpPicker, list)
-            selection["postImp"] = list.firstOrNull() ?: ""
         })
 
-        preImpPicker.setOnValueChangedListener { _, _, newVal ->
-            selection["preImp"] = model.preImp.value?.getOrNull(newVal) ?: ""
+        preImpPicker.setOnValueChangedListener { picker, _, newVal ->
+            selection["${picker.tag}"] = model.preImp.value?.getOrNull(newVal) ?: ""
             updateText()
         }
 
-        saintsPicker.setOnValueChangedListener { _, _, newVal ->
-            selection["saint"] = model.saints.value?.getOrNull(newVal) ?: ""
+        saintsPicker.setOnValueChangedListener { picker, _, newVal ->
+            selection["${picker.tag}"] = model.saints.value?.getOrNull(newVal) ?: ""
             updateText()
         }
 
-        postImpPicker.setOnValueChangedListener { _, _, newVal ->
-            selection["postImp"] = model.postImp.value?.getOrNull(newVal) ?: ""
+        postImpPicker.setOnValueChangedListener { picker, _, newVal ->
+            selection["${picker.tag}"] = model.postImp.value?.getOrNull(newVal) ?: ""
+            updateText()
+        }
+
+        randomBtn.setOnClickListener {
+            pickerRandom(preImpPicker, model.preImp.value)
+            pickerRandom(saintsPicker, model.saints.value)
+            pickerRandom(postImpPicker, model.postImp.value)
             updateText()
         }
 
@@ -103,9 +115,18 @@ class PickerFragment : Fragment() {
         }
     }
 
+    private fun pickerRandom(picker: NumberPicker, list: List<String>?) {
+        list?.let {
+            val index = (0..picker.maxValue).random()
+            picker.value = index
+            selection["${picker.tag}"] = list.getOrNull(index) ?: ""
+        }
+    }
+
     private fun updatePicker(picker: NumberPicker, list: List<String>) {
         picker.maxValue = list.size - 1
         picker.displayedValues = list.toTypedArray()
+        selection["${picker.tag}"] = list.firstOrNull() ?: ""
     }
 
     private fun updateText() {
