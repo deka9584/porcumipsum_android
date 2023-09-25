@@ -1,6 +1,7 @@
 package org.porcumipsum.models
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -71,7 +72,7 @@ class GeneratorViewModel: ViewModel() {
     private fun write(nPar: Int, minLen: Int, commas: Boolean) {
         var output = ""
 
-        for (i in 0..nPar) {
+        for (i in 0 until nPar) {
             var par = ""
 
             if (i == 0) {

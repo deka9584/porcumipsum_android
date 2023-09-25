@@ -20,7 +20,9 @@ import org.porcumipsum.utils.PorkUtils
 
 class PickerFragment : Fragment() {
     private lateinit var model: PickerViewModel
-    private val selection = HashMap<String, String>()
+    private var preImpPicker: NumberPicker? = null
+    private var saintsPicker: NumberPicker? = null
+    private var postImpPicker: NumberPicker? = null
     private var textDisplay: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +45,12 @@ class PickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
-        val preImpPicker = view.findViewById<NumberPicker>(R.id.pre_imp_picker)
-        val saintsPicker = view.findViewById<NumberPicker>(R.id.saints_picker)
-        val postImpPicker = view.findViewById<NumberPicker>(R.id.post_imp_picker)
         val randomBtn = view.findViewById<Button>(R.id.random_button)
 
         textDisplay = view.findViewById(R.id.text_display)
+        preImpPicker = view.findViewById(R.id.pre_imp_picker)
+        saintsPicker = view.findViewById(R.id.saints_picker)
+        postImpPicker = view.findViewById(R.id.post_imp_picker)
 
         textDisplay?.setOnLongClickListener {
             PorkUtils.copyToClipboard(requireContext(), textDisplay?.text)
@@ -68,69 +70,46 @@ class PickerFragment : Fragment() {
         })
 
         model.preImp.observe(viewLifecycleOwner, Observer { list ->
-            preImpPicker.tag = "preImp"
-            updatePicker(preImpPicker, list)
+            preImpPicker?.maxValue = list.size - 1
+            preImpPicker?.displayedValues = list.toTypedArray()
         })
 
         model.saints.observe(viewLifecycleOwner, Observer { list ->
-            saintsPicker.tag = "saint"
-            updatePicker(saintsPicker, list)
+            saintsPicker?.maxValue = list.size - 1
+            saintsPicker?.displayedValues = list.toTypedArray()
         })
 
         model.postImp.observe(viewLifecycleOwner, Observer { list ->
-            postImpPicker.tag = "postImp"
-            updatePicker(postImpPicker, list)
+            postImpPicker?.maxValue = list.size - 1
+            postImpPicker?.displayedValues = list.toTypedArray()
         })
 
-        preImpPicker.setOnValueChangedListener { picker, _, newVal ->
-            selection["${picker.tag}"] = model.preImp.value?.getOrNull(newVal) ?: ""
+        val pickerHandler = { picker: NumberPicker, oldVal: Int, newVal: Int ->
             updateText()
         }
 
-        saintsPicker.setOnValueChangedListener { picker, _, newVal ->
-            selection["${picker.tag}"] = model.saints.value?.getOrNull(newVal) ?: ""
-            updateText()
-        }
-
-        postImpPicker.setOnValueChangedListener { picker, _, newVal ->
-            selection["${picker.tag}"] = model.postImp.value?.getOrNull(newVal) ?: ""
-            updateText()
-        }
+        preImpPicker?.setOnValueChangedListener(pickerHandler)
+        saintsPicker?.setOnValueChangedListener(pickerHandler)
+        postImpPicker?.setOnValueChangedListener(pickerHandler)
 
         randomBtn.setOnClickListener {
-            pickerRandom(preImpPicker, model.preImp.value)
-            pickerRandom(saintsPicker, model.saints.value)
-            pickerRandom(postImpPicker, model.postImp.value)
+            preImpPicker?.value = PorkUtils.getRndInt(0, preImpPicker?.maxValue ?: 0)
+            saintsPicker?.value = PorkUtils.getRndInt(0, saintsPicker?.maxValue ?: 0)
+            postImpPicker?.value = PorkUtils.getRndInt(0, postImpPicker?.maxValue ?: 0)
             updateText()
         }
 
         model.load(requireContext())
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (selection.isNotEmpty()) {
-            updateText()
-        }
-    }
-
-    private fun pickerRandom(picker: NumberPicker, list: List<String>?) {
-        list?.let {
-            val index = (0..picker.maxValue).random()
-            picker.value = index
-            selection["${picker.tag}"] = list.getOrNull(index) ?: ""
-        }
-    }
-
-    private fun updatePicker(picker: NumberPicker, list: List<String>) {
-        picker.maxValue = list.size - 1
-        picker.displayedValues = list.toTypedArray()
-        selection["${picker.tag}"] = list.firstOrNull() ?: ""
-    }
-
     private fun updateText() {
-        val textOut = "${selection["preImp"]} ${selection["saint"]} ${selection["postImp"]}"
-        textDisplay?.text = textOut
+        val preImp = model.preImp.value?.getOrNull(preImpPicker?.value ?: 0)
+        val saint = model.saints.value?.getOrNull(saintsPicker?.value ?: 0)
+        val postImp = model.postImp.value?.getOrNull(postImpPicker?.value ?: 0)
+
+        saint?.let {
+            val textOut = "$preImp $saint $postImp"
+            textDisplay?.text = textOut
+        }
     }
 }
