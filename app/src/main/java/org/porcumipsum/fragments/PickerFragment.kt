@@ -1,7 +1,6 @@
 package org.porcumipsum.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import org.pipsum.R
-import org.porcumipsum.models.GeneratorViewModel
+import org.porcumipsum.R
 import org.porcumipsum.models.PickerViewModel
 import org.porcumipsum.utils.PorkUtils
 
@@ -84,7 +82,7 @@ class PickerFragment : Fragment() {
             postImpPicker?.displayedValues = list.toTypedArray()
         })
 
-        val pickerHandler = { picker: NumberPicker, oldVal: Int, newVal: Int ->
+        val pickerHandler = { _: NumberPicker, _: Int, _: Int ->
             updateText()
         }
 
@@ -93,13 +91,17 @@ class PickerFragment : Fragment() {
         postImpPicker?.setOnValueChangedListener(pickerHandler)
 
         randomBtn.setOnClickListener {
-            preImpPicker?.value = PorkUtils.getRndInt(0, preImpPicker?.maxValue ?: 0)
-            saintsPicker?.value = PorkUtils.getRndInt(0, saintsPicker?.maxValue ?: 0)
-            postImpPicker?.value = PorkUtils.getRndInt(0, postImpPicker?.maxValue ?: 0)
-            updateText()
+            randomize()
         }
 
         model.load(requireContext())
+    }
+
+    private fun randomize() {
+        preImpPicker?.value = PorkUtils.getRndInt(0, preImpPicker?.maxValue ?: 0)
+        saintsPicker?.value = PorkUtils.getRndInt(0, saintsPicker?.maxValue ?: 0)
+        postImpPicker?.value = PorkUtils.getRndInt(0, postImpPicker?.maxValue ?: 0)
+        updateText()
     }
 
     private fun updateText() {

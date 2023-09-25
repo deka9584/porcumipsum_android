@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.pipsum.R
 import org.porcumipsum.fragments.GeneratorFragment
 import org.porcumipsum.fragments.ListFragment
 import org.porcumipsum.fragments.PickerFragment
