@@ -50,6 +50,11 @@ class PickerFragment : Fragment() {
         saintsPicker = view.findViewById(R.id.saints_picker)
         postImpPicker = view.findViewById(R.id.post_imp_picker)
 
+        textDisplay?.setOnClickListener {
+            CreateQrFragment.newInstance("${textDisplay?.text}")
+                .show(requireActivity().supportFragmentManager, "CreateQrFragmentTag")
+        }
+
         textDisplay?.setOnLongClickListener {
             PorkUtils.copyToClipboard(requireContext(), textDisplay?.text)
             Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()

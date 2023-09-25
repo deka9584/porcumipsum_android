@@ -13,4 +13,8 @@
     <string name="invalid_params">Parametri non validi</string>
     <string name="too_high_numbers">Ellamadonna! Metti dei numeri più bassi</string>
     <string name="pick_random">Prendi a muzzo</string>
+    <string name="close">Chiudi</string>
+    <string name="share">Condividi</string>
+    <string name="saved_gallery">Salvato in galleria</string>
+    <string name="save_gallery">Salva in galleria</string>
 </resources>
