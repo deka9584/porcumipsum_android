@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PorcumIpsum</string>
+    <string name="app_name">Porcum Ipsum</string>
     <string name="generator">Generatore</string>
     <string name="list">Lista</string>
     <string name="par_number">Numero di paragrafi</string>
@@ -17,4 +17,7 @@
     <string name="share">Condividi</string>
     <string name="saved_gallery">Salvato in galleria</string>
     <string name="save_gallery">Salva in galleria</string>
+    <string name="add_favourite">Aggiungi ai preferiti</string>
+    <string name="remove_favourite">Rimuovi dai preferiti</string>
+    <string name="added">Aggiunto</string>
 </resources>

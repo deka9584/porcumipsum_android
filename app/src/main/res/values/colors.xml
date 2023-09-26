@@ -11,4 +11,5 @@
     <color name="gray_200">#d1d5db</color>
     <color name="gray_700">#374151</color>
     <color name="gray_800">#1f2937</color>
+    <color name="alpha">#00000000</color>
 </resources>

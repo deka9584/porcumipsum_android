@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.porcumipsum.fragments.GeneratorFragment
 import org.porcumipsum.fragments.ListFragment
 import org.porcumipsum.fragments.PickerFragment
+import org.porcumipsum.utils.FavouritesUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             switchFragment(generatorFragment)
         }
+
+        FavouritesUtils.loadPreferences(this)
     }
 
     private fun switchFragment(fragment: Fragment) {

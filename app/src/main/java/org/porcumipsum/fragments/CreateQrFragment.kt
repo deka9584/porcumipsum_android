@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.porcumipsum.R
+import org.porcumipsum.utils.FavouritesUtils
 import org.porcumipsum.utils.PorkUtils
 import java.io.File
 import java.io.FileNotFoundException
@@ -57,13 +58,21 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         val textDisplay = view.findViewById<TextView>(R.id.text_display)
         val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
         val qrCodeBitmap = PorkUtils.generateQRCode("$textSelected", 200, 200)
+        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
         val saveBtn = view.findViewById<Button>(R.id.save_btn)
         val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
 
         textDisplay.text = textSelected
+        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
 
         qrCodeBitmap?.let {
             qrCodeDisplay.setImageBitmap(it)
+        }
+
+        addFavouriteBtn.setOnClickListener {
+            FavouritesUtils.addFavourite(requireContext(), "$textSelected")
+            Toast.makeText(context, getString(R.string.added), Toast.LENGTH_SHORT).show()
+            addFavouriteBtn.isEnabled = false
         }
 
         saveBtn.setOnClickListener {
@@ -89,7 +98,7 @@ class CreateQrFragment : BottomSheetDialogFragment() {
                 contentResolver.openOutputStream(it, "rw")
             }
 
-            if (bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream)) {
+            if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)) {
                 Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT).show()
             }
         } catch (e: FileNotFoundException){
