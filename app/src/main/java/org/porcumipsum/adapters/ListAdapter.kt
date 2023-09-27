@@ -1,22 +1,19 @@
 package org.porcumipsum.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import org.porcumipsum.MainActivity
 import org.porcumipsum.R
-import org.porcumipsum.fragments.CreateQrFragment
-import org.porcumipsum.models.ListViewModel
-import org.porcumipsum.utils.PorkUtils
 
-class FavouritesAdapter(private val listVM: ListViewModel)
-    : RecyclerView.Adapter<FavouritesAdapter.ViewHolder>() {
+class ListAdapter(
+    private val onTextClick: (String) -> Unit,
+    private val onCopyClick: (String) -> Unit,
+    private  val onDeleteClick: (Int) -> Unit
+)
+    : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
     private var dataSet = emptyList<String>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,33 +33,19 @@ class FavouritesAdapter(private val listVM: ListViewModel)
         holder.textView.text = text
 
         holder.copyBtn.setOnClickListener {
-            PorkUtils.copyToClipboard(it.context, text)
-
-            Toast.makeText(
-                it.context,
-                it.context.getString(R.string.clipboard_copy),
-                Toast.LENGTH_SHORT
-            ).show()
+            onCopyClick(text)
         }
 
         holder.deleteBtn.setOnClickListener {
-            listVM.removeElement(it.context, position)
+            onDeleteClick(position)
         }
 
         holder.textView.setOnClickListener {
-            openCreateQrDialog(it.context, text)
+            onTextClick(text)
         }
     }
 
     override fun getItemCount() = dataSet.size
-
-    private fun openCreateQrDialog(context: Context, text: String) {
-        val activity = context as? MainActivity
-        activity?.let {
-            CreateQrFragment.newInstance(text)
-                .show(context.supportFragmentManager, "CreateQrFragmentTag")
-        }
-    }
 
     fun setData(newData: List<String>) {
         dataSet = newData

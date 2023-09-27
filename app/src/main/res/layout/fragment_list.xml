@@ -11,32 +11,38 @@
             android:text="@string/list"/>
     </LinearLayout>
 
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="24dp"
-            android:orientation="vertical"
-            android:gravity="start">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-            <Button style="@style/roundedBox"
-                android:id="@+id/scan_qr_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/scan_qr_code"
-                android:textSize="18sp"
-                android:padding="0dp"/>
+                android:padding="24dp"
+                android:orientation="vertical"
+                android:gravity="start">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
-        </LinearLayout>
-    </ScrollView>
+                <Button style="@style/roundedBox"
+                    android:id="@+id/scan_qr_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scan_qr_code"
+                    android:textSize="18sp"
+                    android:padding="0dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"/>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
