@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.porcumipsum.fragments.AppInfoFragment
 import org.porcumipsum.fragments.GeneratorFragment
 import org.porcumipsum.fragments.ListFragment
 import org.porcumipsum.fragments.PickerFragment
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val generatorFragment = GeneratorFragment()
         val pickerFragment = PickerFragment()
         val listFragment = ListFragment()
+        val appInfoFragment = AppInfoFragment()
         val navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         navigation.setOnItemSelectedListener { item ->

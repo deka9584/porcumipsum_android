@@ -58,7 +58,7 @@
                 android:gravity="center_horizontal"
                 android:paddingVertical="24dp">
 
-                <ProgressBar style="@style/ProgressView"
+                <ProgressBar style="@style/progressView"
                     android:id="@+id/progress_bar"/>
 
                 <TextView

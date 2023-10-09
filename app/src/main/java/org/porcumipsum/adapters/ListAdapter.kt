@@ -11,9 +11,9 @@ import org.porcumipsum.R
 class ListAdapter(
     private val onTextClick: (String) -> Unit,
     private val onCopyClick: (String) -> Unit,
-    private  val onDeleteClick: (Int) -> Unit
-)
-    : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+    private val onDeleteClick: (Int) -> Unit
+) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+
     private var dataSet = emptyList<String>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

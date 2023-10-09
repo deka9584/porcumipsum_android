@@ -95,10 +95,8 @@ class ScanQrFragment : BottomSheetDialogFragment() {
         cameraPreview?.decodeContinuous { result ->
             if (result != null) {
                 val text = result.text
-
                 CreateQrFragment.newInstance(text)
                     .show(requireActivity().supportFragmentManager, "CreateQrFragmentTag")
-
                 dismiss()
             }
         }

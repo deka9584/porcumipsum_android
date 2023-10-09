@@ -20,4 +20,6 @@
     <string name="add_favourite">Aggiungi ai preferiti</string>
     <string name="remove_favourite">Rimuovi dai preferiti</string>
     <string name="added">Aggiunto</string>
+    <string name="app_info_tab"><u>Maggiori informazioni</u></string>
+    <string name="visit_website">Visita il sito web</string>
 </resources>

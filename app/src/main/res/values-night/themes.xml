@@ -27,6 +27,7 @@
     <style name="roundedBox">
         <item name="android:background">@drawable/rounded_box</item>
         <item name="android:backgroundTint">@color/gray_800</item>
+        <item name="android:drawableTint">@color/gray_800</item>
     </style>
 
     <style name="optionImageBtn">

@@ -11,7 +11,8 @@ import org.json.JSONException
 import org.json.JSONObject
 
 object PorkApiClient {
-    private const val apiUrl = "http://salaandrea.altervista.org/porcumipsum/api.php"
+    private const val webUrl = "http://salaandrea.altervista.org/porcumipsum"
+    private const val apiUrl = "$webUrl/api.php"
 
     private fun getAPIErrorMessage(error: VolleyError): String {
         if (error is NoConnectionError) {
@@ -56,5 +57,9 @@ object PorkApiClient {
         }
 
         reqQueue.add(request)
+    }
+
+    fun getWebUrl(): String {
+        return webUrl
     }
 }

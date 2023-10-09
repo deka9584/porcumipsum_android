@@ -6,8 +6,7 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:layout_marginTop="12dp"
-    android:paddingHorizontal="18dp"
-    android:paddingVertical="12dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/text_display"
@@ -16,7 +15,7 @@
         android:layout_weight="1"
         android:text="List item"
         android:textSize="18sp"
-        android:padding="3dp"/>
+        android:paddingHorizontal="6dp"/>
 
     <ImageButton style="@style/optionImageBtn"
         android:id="@+id/copy_button"
