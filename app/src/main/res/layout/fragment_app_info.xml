@@ -16,7 +16,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="18dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardMaxElevation="10dp"
+            app:cardPreventCornerOverlap="true">
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"

@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         val generatorFragment = GeneratorFragment()
         val pickerFragment = PickerFragment()
         val listFragment = ListFragment()
-        val appInfoFragment = AppInfoFragment()
         val navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         navigation.setOnItemSelectedListener { item ->

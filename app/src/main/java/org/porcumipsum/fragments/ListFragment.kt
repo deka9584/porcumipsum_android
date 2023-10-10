@@ -14,10 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import org.porcumipsum.BuildConfig
 import org.porcumipsum.R
 import org.porcumipsum.adapters.ListAdapter
 import org.porcumipsum.models.ListViewModel
 import org.porcumipsum.utils.PorkUtils
+import org.w3c.dom.Text
 
 class ListFragment : Fragment() {
     private lateinit var model: ListViewModel
@@ -75,6 +77,10 @@ class ListFragment : Fragment() {
         scanQrBtn.setOnClickListener {
             ScanQrFragment().show(requireActivity().supportFragmentManager, "ScanQrFragmentTag")
         }
+
+        val appVersionDisplay = view.findViewById<TextView>(R.id.app_version_display)
+        val appVersionStr = "${getString(R.string.app_name)} v${BuildConfig.VERSION_NAME}"
+        appVersionDisplay.text = appVersionStr
 
         val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
         appInfoLink.setOnClickListener {
