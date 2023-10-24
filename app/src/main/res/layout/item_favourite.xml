@@ -14,17 +14,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="List item"
+        android:text="@string/list"
         android:textSize="18sp"
         android:layout_marginEnd="12dp"/>
 
     <ImageButton style="@style/optionImageBtn"
         android:id="@+id/copy_button"
         android:src="@drawable/ic_baseline_content_copy_24"
-        android:backgroundTint="@color/alpha"/>
+        android:backgroundTint="@color/alpha"
+        android:contentDescription="@string/copy" />
 
     <ImageButton style="@style/optionImageBtn"
         android:id="@+id/delete_button"
         android:src="@drawable/ic_baseline_delete_forever_24"
-        android:backgroundTint="@color/alpha"/>
+        android:backgroundTint="@color/alpha"
+        android:contentDescription="@string/delete" />
 </LinearLayout>

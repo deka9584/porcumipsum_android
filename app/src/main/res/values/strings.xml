@@ -23,7 +23,9 @@
     <string name="add_favourite">Add to favourites</string>
     <string name="remove_favourite">Remove from favourites</string>
     <string name="added">Added</string>
-    <string name="scan_qr_code" translatable="false">Scan QR Code</string>
+    <string name="scan_qr_code">Scan QR Code</string>
     <string name="app_info_tab"><u>More info</u></string>
     <string name="visit_website">Visit website</string>
+    <string name="copy">Copy</string>
+    <string name="delete">Delete</string>
 </resources>

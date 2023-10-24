@@ -22,4 +22,7 @@
     <string name="added">Aggiunto</string>
     <string name="app_info_tab"><u>Maggiori informazioni</u></string>
     <string name="visit_website">Visita il sito web</string>
+    <string name="copy">Copia</string>
+    <string name="delete">Elimina</string>
+    <string name="scan_qr_code">Scannerizza QR</string>
 </resources>
