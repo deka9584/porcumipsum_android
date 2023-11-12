@@ -4,8 +4,8 @@ import android.app.Dialog
 import android.content.ContentValues
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.porcumipsum.R
 import org.porcumipsum.utils.FavouritesUtils
 import org.porcumipsum.utils.PorkUtils
-import java.io.File
 import java.io.FileNotFoundException
-import java.io.FileOutputStream
 
 class CreateQrFragment : BottomSheetDialogFragment() {
     private var textSelected: String? = null
@@ -57,53 +55,55 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         val textDisplay = view.findViewById<TextView>(R.id.text_display)
+        textDisplay.text = textSelected
+
         val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
         val qrCodeBitmap = PorkUtils.generateQRCode("$textSelected", 200, 200)
-        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
-        val saveBtn = view.findViewById<Button>(R.id.save_btn)
-        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
-
-        textDisplay.text = textSelected
-        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
 
         qrCodeBitmap?.let {
             qrCodeDisplay.setImageBitmap(it)
         }
 
+        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
+        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
         addFavouriteBtn.setOnClickListener {
             FavouritesUtils.addFavourite(requireContext(), "$textSelected")
             Toast.makeText(context, getString(R.string.added), Toast.LENGTH_SHORT).show()
             addFavouriteBtn.isEnabled = false
         }
 
+        val saveBtn = view.findViewById<Button>(R.id.save_btn)
         saveBtn.setOnClickListener {
-            if (qrCodeBitmap != null) {
-                saveToGallery(qrCodeBitmap)
+            if (qrCodeBitmap != null && saveToGallery(qrCodeBitmap)) {
+                Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT).show()
+                Log.e("qrcode", "Unable to save image")
             }
         }
 
+        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }
     }
 
-    private fun saveToGallery(bitmap: Bitmap) {
+    private fun saveToGallery(bitmap: Bitmap): Boolean {
         val contentResolver = context?.contentResolver
         val insertUri = contentResolver?.insert (
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             ContentValues()
         )
 
-        try {
+        return try {
             val outputStream = insertUri?.let {
                 contentResolver.openOutputStream(it, "rw")
             }
 
-            if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)) {
-                Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT).show()
-            }
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         } catch (e: FileNotFoundException){
             e.printStackTrace()
+            false
         }
     }
 

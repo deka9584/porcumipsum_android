@@ -25,4 +25,5 @@
     <string name="copy">Copia</string>
     <string name="delete">Elimina</string>
     <string name="scan_qr_code">Scannerizza QR</string>
+    <string name="error_saving">Impossibile salvare il file</string>
 </resources>

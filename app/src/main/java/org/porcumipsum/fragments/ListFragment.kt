@@ -79,8 +79,7 @@ class ListFragment : Fragment() {
         }
 
         val appVersionDisplay = view.findViewById<TextView>(R.id.app_version_display)
-        val appVersionStr = "${getString(R.string.app_name)} v${BuildConfig.VERSION_NAME}"
-        appVersionDisplay.text = appVersionStr
+        appVersionDisplay.text = getString(R.string.app_name)
 
         val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
         appInfoLink.setOnClickListener {
