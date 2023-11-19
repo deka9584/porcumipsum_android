@@ -63,7 +63,7 @@ class GeneratorFragment : Fragment() {
             progressBar.visibility = if (status) View.VISIBLE else View.GONE
         })
 
-        generateBtn?.setOnClickListener {
+        generateBtn.setOnClickListener {
             generate()
         }
 

@@ -55,24 +55,25 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         val textDisplay = view.findViewById<TextView>(R.id.text_display)
-        textDisplay.text = textSelected
-
         val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
+        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
+        val saveBtn = view.findViewById<Button>(R.id.save_btn)
+        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         val qrCodeBitmap = PorkUtils.generateQRCode("$textSelected", 200, 200)
+
+        textDisplay.text = textSelected
+        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
 
         qrCodeBitmap?.let {
             qrCodeDisplay.setImageBitmap(it)
         }
 
-        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
-        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
         addFavouriteBtn.setOnClickListener {
             FavouritesUtils.addFavourite(requireContext(), "$textSelected")
             Toast.makeText(context, getString(R.string.added), Toast.LENGTH_SHORT).show()
             addFavouriteBtn.isEnabled = false
         }
 
-        val saveBtn = view.findViewById<Button>(R.id.save_btn)
         saveBtn.setOnClickListener {
             if (qrCodeBitmap != null && saveToGallery(qrCodeBitmap)) {
                 Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT).show()
@@ -82,7 +83,6 @@ class CreateQrFragment : BottomSheetDialogFragment() {
             }
         }
 
-        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }

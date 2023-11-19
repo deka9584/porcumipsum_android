@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,19 +36,19 @@ class AppInfoFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val appName = view.findViewById<TextView>(R.id.app_name)
-        appName.text = getString(R.string.app_name)
-
-        val appVersion = view.findViewById<TextView>(R.id.app_version)
-        appVersion.text = BuildConfig.VERSION_NAME
-
+        val appNameDisplay = view.findViewById<TextView>(R.id.app_name)
+        val appVersionDisplay = view.findViewById<TextView>(R.id.app_version)
         val websiteBtn = view.findViewById<Button>(R.id.website_btn)
+        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
+
+        appNameDisplay.text = getString(R.string.app_name)
+        appVersionDisplay.text = BuildConfig.VERSION_NAME
+
         websiteBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PorkApiClient.getWebUrl()))
             startActivity(intent)
         }
 
-        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }

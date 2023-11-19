@@ -45,6 +45,10 @@ class PickerFragment : Fragment() {
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         val randomBtn = view.findViewById<Button>(R.id.random_button)
 
+        val pickerChangeHandler = { _: NumberPicker, _: Int, _: Int ->
+            updateText()
+        }
+
         textDisplay = view.findViewById(R.id.text_display)
         preImpPicker = view.findViewById(R.id.pre_imp_picker)
         saintsPicker = view.findViewById(R.id.saints_picker)
@@ -87,13 +91,9 @@ class PickerFragment : Fragment() {
             postImpPicker?.displayedValues = list.toTypedArray()
         })
 
-        val pickerHandler = { _: NumberPicker, _: Int, _: Int ->
-            updateText()
-        }
-
-        preImpPicker?.setOnValueChangedListener(pickerHandler)
-        saintsPicker?.setOnValueChangedListener(pickerHandler)
-        postImpPicker?.setOnValueChangedListener(pickerHandler)
+        preImpPicker?.setOnValueChangedListener(pickerChangeHandler)
+        saintsPicker?.setOnValueChangedListener(pickerChangeHandler)
+        postImpPicker?.setOnValueChangedListener(pickerChangeHandler)
 
         randomBtn.setOnClickListener {
             randomize()
@@ -115,8 +115,8 @@ class PickerFragment : Fragment() {
         val postImp = model.postImp.value?.getOrNull(postImpPicker?.value ?: 0)
 
         saint?.let {
-            val textOut = "$preImp $saint $postImp"
-            textDisplay?.text = textOut
+            val textResult = "$preImp $saint $postImp"
+            textDisplay?.text = textResult
         }
     }
 }

@@ -1,7 +1,6 @@
 package org.porcumipsum.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import org.porcumipsum.BuildConfig
 import org.porcumipsum.R
 import org.porcumipsum.adapters.ListAdapter
 import org.porcumipsum.models.ListViewModel
 import org.porcumipsum.utils.PorkUtils
-import org.w3c.dom.Text
 
 class ListFragment : Fragment() {
     private lateinit var model: ListViewModel
@@ -46,6 +43,8 @@ class ListFragment : Fragment() {
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
         val scanQrBtn = view.findViewById<Button>(R.id.scan_qr_button)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        val appNameDisplay = view.findViewById<TextView>(R.id.app_version_display)
+        val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
 
         val adapter = ListAdapter(
             onTextClick = { text ->
@@ -78,10 +77,8 @@ class ListFragment : Fragment() {
             ScanQrFragment().show(requireActivity().supportFragmentManager, "ScanQrFragmentTag")
         }
 
-        val appVersionDisplay = view.findViewById<TextView>(R.id.app_version_display)
-        appVersionDisplay.text = getString(R.string.app_name)
+        appNameDisplay.text = getString(R.string.app_name)
 
-        val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
         appInfoLink.setOnClickListener {
             AppInfoFragment().show(requireActivity().supportFragmentManager, "AppInfoFragment")
         }

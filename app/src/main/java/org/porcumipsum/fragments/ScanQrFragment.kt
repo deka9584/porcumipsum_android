@@ -43,6 +43,7 @@ class ScanQrFragment : BottomSheetDialogFragment() {
         val sheetContainer = view.parent as? ViewGroup
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
+        val dismissBtn = view.findViewById<ImageButton>(R.id.dismiss_btn)
         cameraPreview = view.findViewById(R.id.camera_preview)
 
         when (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)) {
@@ -59,7 +60,6 @@ class ScanQrFragment : BottomSheetDialogFragment() {
             }
         }
 
-        val dismissBtn = view.findViewById<ImageButton>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }
