@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -55,10 +56,8 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         val textDisplay = view.findViewById<TextView>(R.id.text_display)
-        val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
         val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
-        val saveBtn = view.findViewById<Button>(R.id.save_btn)
-        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
+        val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
         val qrCodeBitmap = PorkUtils.generateQRCode("$textSelected", 200, 200)
 
         textDisplay.text = textSelected
@@ -74,15 +73,22 @@ class CreateQrFragment : BottomSheetDialogFragment() {
             addFavouriteBtn.isEnabled = false
         }
 
+        val saveBtn = view.findViewById<Button>(R.id.save_btn)
         saveBtn.setOnClickListener {
-            if (qrCodeBitmap != null && saveToGallery(qrCodeBitmap)) {
-                Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT).show()
-                Log.e("qrcode", "Unable to save image")
+            qrCodeBitmap?.let {
+                if (saveToGallery(qrCodeBitmap)) {
+                    Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else {
+                    Log.e("qrcode", "Unable to save image")
+                    Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 
+        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }

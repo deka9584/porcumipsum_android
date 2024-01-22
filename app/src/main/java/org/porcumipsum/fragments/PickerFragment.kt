@@ -55,8 +55,8 @@ class PickerFragment : Fragment() {
         postImpPicker = view.findViewById(R.id.post_imp_picker)
 
         textDisplay?.setOnClickListener {
-            CreateQrFragment.newInstance("${textDisplay?.text}")
-                .show(requireActivity().supportFragmentManager, "CreateQrFragmentTag")
+            val text = "${textDisplay?.text}"
+            PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, text)
         }
 
         textDisplay?.setOnLongClickListener {
@@ -69,7 +69,8 @@ class PickerFragment : Fragment() {
             if (status) {
                 progressBar.visibility = View.VISIBLE
                 textDisplay?.visibility = View.GONE
-            } else {
+            }
+            else {
                 progressBar.visibility = View.GONE
                 textDisplay?.visibility = View.VISIBLE
                 updateText()

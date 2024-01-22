@@ -5,18 +5,20 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.journeyapps.barcodescanner.*
 import org.porcumipsum.R
-
+import org.porcumipsum.utils.PorkUtils
 
 class ScanQrFragment : BottomSheetDialogFragment() {
     private var cameraPreview: BarcodeView? = null
@@ -43,7 +45,6 @@ class ScanQrFragment : BottomSheetDialogFragment() {
         val sheetContainer = view.parent as? ViewGroup
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        val dismissBtn = view.findViewById<ImageButton>(R.id.dismiss_btn)
         cameraPreview = view.findViewById(R.id.camera_preview)
 
         when (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)) {
@@ -60,6 +61,7 @@ class ScanQrFragment : BottomSheetDialogFragment() {
             }
         }
 
+        val dismissBtn = view.findViewById<ImageButton>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }
@@ -95,9 +97,7 @@ class ScanQrFragment : BottomSheetDialogFragment() {
     private fun startDecode() {
         cameraPreview?.decodeContinuous { result ->
             if (result != null) {
-                val text = result.text
-                CreateQrFragment.newInstance(text)
-                    .show(requireActivity().supportFragmentManager, "CreateQrFragmentTag")
+                PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, result.text)
                 dismiss()
             }
         }

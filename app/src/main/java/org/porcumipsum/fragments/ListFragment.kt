@@ -1,6 +1,7 @@
 package org.porcumipsum.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.porcumipsum.R
 import org.porcumipsum.adapters.ListAdapter
 import org.porcumipsum.models.ListViewModel
@@ -43,13 +45,10 @@ class ListFragment : Fragment() {
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
         val scanQrBtn = view.findViewById<Button>(R.id.scan_qr_button)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val appNameDisplay = view.findViewById<TextView>(R.id.app_version_display)
-        val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
 
         val adapter = ListAdapter(
             onTextClick = { text ->
-                CreateQrFragment.newInstance(text)
-                    .show(requireActivity().supportFragmentManager, "CreateQrFragmentTag")
+                PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, text)
             },
             onCopyClick = { text ->
                 PorkUtils.copyToClipboard(requireContext(), text)
@@ -74,13 +73,19 @@ class ListFragment : Fragment() {
         }
 
         scanQrBtn.setOnClickListener {
-            ScanQrFragment().show(requireActivity().supportFragmentManager, "ScanQrFragmentTag")
+            PorkUtils.showScanQrSheet(requireActivity().supportFragmentManager)
         }
+
+        val appNameDisplay = view.findViewById<TextView>(R.id.app_version_display)
+        val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
+        val appInfoFragment = AppInfoFragment()
 
         appNameDisplay.text = getString(R.string.app_name)
 
         appInfoLink.setOnClickListener {
-            AppInfoFragment().show(requireActivity().supportFragmentManager, "AppInfoFragment")
+            if (!appInfoFragment.isAdded) {
+                appInfoFragment.show(requireActivity().supportFragmentManager, "AppInfo")
+            }
         }
 
         model.loadFavourites()

@@ -81,11 +81,15 @@ class GeneratorFragment : Fragment() {
 
         if (nPar < 1 || minLen < 1) {
             Toast.makeText(context, getString(R.string.invalid_params), Toast.LENGTH_SHORT).show()
-        } else if (nPar > 10 || minLen > 4000) {
-            parDisplay?.text = getString(R.string.too_high_numbers)
-        } else {
-            model.generatePork(requireContext(), nPar, minLen, commas)
+            return
         }
+
+        if (nPar > 10 || minLen > 4000) {
+            Toast.makeText(context, getString(R.string.too_high_numbers), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        model.generatePork(requireContext(), nPar, minLen, commas)
     }
 
     private fun clear() {
