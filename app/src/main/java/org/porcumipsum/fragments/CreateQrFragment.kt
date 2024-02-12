@@ -1,26 +1,31 @@
 package org.porcumipsum.fragments
 
 import android.app.Dialog
+import android.content.ClipData
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
+import androidx.core.content.FileProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.porcumipsum.R
 import org.porcumipsum.utils.FavouritesUtils
 import org.porcumipsum.utils.PorkUtils
+import java.io.File
 import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 class CreateQrFragment : BottomSheetDialogFragment() {
     private var textSelected: String? = null
@@ -37,7 +42,6 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         return BottomSheetDialog(requireContext(), theme).apply {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.peekHeight = ViewGroup.LayoutParams.MATCH_PARENT
-            behavior.isDraggable = false
         }
     }
 
@@ -56,35 +60,33 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         val textDisplay = view.findViewById<TextView>(R.id.text_display)
-        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite)
         val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
         val qrCodeBitmap = PorkUtils.generateQRCode("$textSelected", 200, 200)
 
         textDisplay.text = textSelected
-        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
 
         qrCodeBitmap?.let {
             qrCodeDisplay.setImageBitmap(it)
         }
 
+        val shareBtn = view.findViewById<ImageButton>(R.id.share_btn)
+        shareBtn.setOnClickListener {
+            qrCodeBitmap?.let {
+                shareImage(qrCodeBitmap)
+            }
+        }
+
+        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite_btn)
+        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
         addFavouriteBtn.setOnClickListener {
-            FavouritesUtils.addFavourite(requireContext(), "$textSelected")
-            Toast.makeText(context, getString(R.string.added), Toast.LENGTH_SHORT).show()
+            addToFavourites(textSelected)
             addFavouriteBtn.isEnabled = false
         }
 
         val saveBtn = view.findViewById<Button>(R.id.save_btn)
         saveBtn.setOnClickListener {
             qrCodeBitmap?.let {
-                if (saveToGallery(qrCodeBitmap)) {
-                    Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT)
-                        .show()
-                }
-                else {
-                    Log.e("qrcode", "Unable to save image")
-                    Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT)
-                        .show()
-                }
+                saveToGallery(qrCodeBitmap)
             }
         }
 
@@ -94,22 +96,62 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun saveToGallery(bitmap: Bitmap): Boolean {
+    private fun addToFavourites(textSelected: String?) {
+        textSelected?.let {
+            FavouritesUtils.addFavourite(requireContext(), it)
+            Toast.makeText(context, getString(R.string.added), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun saveToGallery(bitmap: Bitmap) {
         val contentResolver = context?.contentResolver
         val insertUri = contentResolver?.insert (
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             ContentValues()
         )
 
-        return try {
+        try {
             val outputStream = insertUri?.let {
                 contentResolver.openOutputStream(it, "rw")
             }
 
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)) {
+                Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT)
+                    .show()
+            }
         } catch (e: FileNotFoundException){
             e.printStackTrace()
-            false
+            Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    private fun shareImage(bitmap: Bitmap) {
+        val imagePath = "${context?.externalCacheDir}/image.png"
+        val imageFile = File(imagePath)
+
+        try {
+            val fileOutputStream = FileOutputStream(imageFile)
+
+            if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)) {
+                fileOutputStream.flush()
+                fileOutputStream.close()
+
+                val uri = FileProvider.getUriForFile(requireContext(),
+                "${context?.applicationContext?.packageName}.provider", imageFile)
+
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "image/*"
+                    clipData = ClipData.newRawUri("", uri)
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+
+                startActivity(Intent.createChooser(shareIntent, "Share Image"))
+            }
+        }
+        catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
