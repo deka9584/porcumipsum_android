@@ -49,6 +49,15 @@
         <item name="android:drawableTint">@color/white</item>
     </style>
 
+    <style name="circleBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/circle_button</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_margin">6dp</item>
+        <item name="tint">@color/white</item>
+    </style>
+
     <style name="optionImageBtn">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

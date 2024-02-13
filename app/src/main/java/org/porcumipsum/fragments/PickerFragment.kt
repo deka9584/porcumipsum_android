@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -43,7 +43,9 @@ class PickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
-        val randomBtn = view.findViewById<Button>(R.id.random_button)
+        val copyBtn = view.findViewById<ImageButton>(R.id.copy_btn)
+        val randomBtn = view.findViewById<ImageButton>(R.id.random_btn)
+        val shareBtn = view.findViewById<ImageButton>(R.id.share_btn)
 
         val pickerChangeHandler = { _: NumberPicker, _: Int, _: Int ->
             updateText()
@@ -55,13 +57,11 @@ class PickerFragment : Fragment() {
         postImpPicker = view.findViewById(R.id.post_imp_picker)
 
         textDisplay?.setOnClickListener {
-            val text = "${textDisplay?.text}"
-            PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, text)
+            openQRSheet()
         }
 
         textDisplay?.setOnLongClickListener {
-            PorkUtils.copyToClipboard(requireContext(), textDisplay?.text)
-            Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()
+            copyToClipboard()
             true
         }
 
@@ -96,11 +96,24 @@ class PickerFragment : Fragment() {
         saintsPicker?.setOnValueChangedListener(pickerChangeHandler)
         postImpPicker?.setOnValueChangedListener(pickerChangeHandler)
 
+        copyBtn.setOnClickListener {
+            copyToClipboard()
+        }
+
         randomBtn.setOnClickListener {
             randomize()
         }
 
+        shareBtn.setOnClickListener {
+            openQRSheet()
+        }
+
         model.load(requireContext())
+    }
+
+    private fun copyToClipboard() {
+        PorkUtils.copyToClipboard(requireContext(), textDisplay?.text)
+        Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()
     }
 
     private fun randomize() {
@@ -108,6 +121,11 @@ class PickerFragment : Fragment() {
         saintsPicker?.value = PorkUtils.getRndInt(0, saintsPicker?.maxValue ?: 0)
         postImpPicker?.value = PorkUtils.getRndInt(0, postImpPicker?.maxValue ?: 0)
         updateText()
+    }
+
+    private fun openQRSheet() {
+        val text = "${textDisplay?.text}"
+        PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, text)
     }
 
     private fun updateText() {

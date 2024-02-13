@@ -37,17 +37,17 @@ class AppInfoFragment : BottomSheetDialogFragment() {
 
         val appNameDisplay = view.findViewById<TextView>(R.id.app_name)
         val appVersionDisplay = view.findViewById<TextView>(R.id.app_version)
+        val websiteBtn = view.findViewById<Button>(R.id.website_btn)
+        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
 
         appNameDisplay.text = getString(R.string.app_name)
         appVersionDisplay.text = BuildConfig.VERSION_NAME
 
-        val websiteBtn = view.findViewById<Button>(R.id.website_btn)
         websiteBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PorkApiClient.getWebUrl()))
             startActivity(intent)
         }
 
-        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }

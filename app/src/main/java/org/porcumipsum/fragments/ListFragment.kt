@@ -40,6 +40,10 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val appInfoFragment = AppInfoFragment()
+
+        val appNameDisplay = view.findViewById<TextView>(R.id.app_version_display)
+        val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
         val scanQrBtn = view.findViewById<Button>(R.id.scan_qr_button)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
@@ -73,10 +77,6 @@ class ListFragment : Fragment() {
         scanQrBtn.setOnClickListener {
             PorkUtils.showScanQrSheet(requireActivity().supportFragmentManager)
         }
-
-        val appNameDisplay = view.findViewById<TextView>(R.id.app_version_display)
-        val appInfoLink = view.findViewById<TextView>(R.id.app_info_link)
-        val appInfoFragment = AppInfoFragment()
 
         appNameDisplay.text = getString(R.string.app_name)
 

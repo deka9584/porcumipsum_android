@@ -60,37 +60,38 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         sheetContainer?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
 
         val textDisplay = view.findViewById<TextView>(R.id.text_display)
+        val shareBtn = view.findViewById<ImageButton>(R.id.share_btn)
+        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite_btn)
+        val saveBtn = view.findViewById<Button>(R.id.save_btn)
         val qrCodeDisplay = view.findViewById<ImageView>(R.id.qrcode_display)
+        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
+
         val qrCodeBitmap = PorkUtils.generateQRCode("$textSelected", 200, 200)
 
         textDisplay.text = textSelected
+        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
 
         qrCodeBitmap?.let {
             qrCodeDisplay.setImageBitmap(it)
         }
 
-        val shareBtn = view.findViewById<ImageButton>(R.id.share_btn)
         shareBtn.setOnClickListener {
             qrCodeBitmap?.let {
                 shareImage(qrCodeBitmap)
             }
         }
 
-        val addFavouriteBtn = view.findViewById<Button>(R.id.add_favourite_btn)
-        addFavouriteBtn.isEnabled = !FavouritesUtils.isFavorite(textSelected)
         addFavouriteBtn.setOnClickListener {
             addToFavourites(textSelected)
             addFavouriteBtn.isEnabled = false
         }
 
-        val saveBtn = view.findViewById<Button>(R.id.save_btn)
         saveBtn.setOnClickListener {
             qrCodeBitmap?.let {
                 saveToGallery(qrCodeBitmap)
             }
         }
 
-        val dismissBtn = view.findViewById<Button>(R.id.dismiss_btn)
         dismissBtn.setOnClickListener {
             dismiss()
         }
@@ -116,13 +117,11 @@ class CreateQrFragment : BottomSheetDialogFragment() {
             }
 
             if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)) {
-                Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(context, getString(R.string.saved_gallery), Toast.LENGTH_SHORT).show()
             }
         } catch (e: FileNotFoundException){
             e.printStackTrace()
-            Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(context, getString(R.string.error_saving), Toast.LENGTH_SHORT).show()
         }
     }
 
