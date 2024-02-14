@@ -42,6 +42,7 @@ class CreateQrFragment : BottomSheetDialogFragment() {
         return BottomSheetDialog(requireContext(), theme).apply {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.peekHeight = ViewGroup.LayoutParams.MATCH_PARENT
+            behavior.skipCollapsed = true
         }
     }
 
