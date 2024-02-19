@@ -1,6 +1,7 @@
 package org.porcumipsum.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -112,8 +113,12 @@ class PickerFragment : Fragment() {
     }
 
     private fun copyToClipboard() {
-        PorkUtils.copyToClipboard(requireContext(), textDisplay?.text)
-        Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()
+        val text = textDisplay?.text?.toString()
+
+        if (text != null && text.isNotBlank()) {
+            PorkUtils.copyToClipboard(requireContext(), text)
+            Toast.makeText(context, getString(R.string.clipboard_copy), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun randomize() {
@@ -124,8 +129,11 @@ class PickerFragment : Fragment() {
     }
 
     private fun openQRSheet() {
-        val text = "${textDisplay?.text}"
-        PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, text)
+        val text = textDisplay?.text?.toString()
+
+        if (text != null && text.isNotBlank()) {
+            PorkUtils.showCreateQrSheet(requireActivity().supportFragmentManager, text)
+        }
     }
 
     private fun updateText() {

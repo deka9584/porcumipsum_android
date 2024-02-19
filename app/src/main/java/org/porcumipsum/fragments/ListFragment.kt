@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.porcumipsum.R
 import org.porcumipsum.adapters.ListAdapter
+import org.porcumipsum.fragments.sheets.AppInfoFragment
 import org.porcumipsum.models.ListViewModel
 import org.porcumipsum.utils.PorkUtils
 

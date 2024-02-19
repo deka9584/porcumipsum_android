@@ -1,4 +1,4 @@
-package org.porcumipsum.fragments
+package org.porcumipsum.fragments.sheets
 
 import android.app.Dialog
 import android.content.Intent
@@ -44,7 +44,7 @@ class AppInfoFragment : BottomSheetDialogFragment() {
         appVersionDisplay.text = BuildConfig.VERSION_NAME
 
         websiteBtn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PorkApiClient.getWebUrl()))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PorkApiClient.WEB_URL))
             startActivity(intent)
         }
 

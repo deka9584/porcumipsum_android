@@ -11,8 +11,8 @@ import org.json.JSONException
 import org.json.JSONObject
 
 object PorkApiClient {
-    private const val webUrl = "http://salaandrea.altervista.org/porcumipsum"
-    private const val apiUrl = "$webUrl/api.php"
+    const val WEB_URL = "http://salaandrea.altervista.org/porcumipsum"
+    private const val API_URL = "$WEB_URL/api.php"
 
     private fun getAPIErrorMessage(error: VolleyError): String {
         if (error is NoConnectionError) {
@@ -22,8 +22,9 @@ object PorkApiClient {
         try {
             val responseString = String(error.networkResponse?.data ?: byteArrayOf())
             val jsonResponse = JSONObject(responseString)
+            val statusCode = error.networkResponse?.statusCode
 
-            return "${jsonResponse.optString("message", "Error")} (${error.networkResponse?.statusCode})"
+            return "${jsonResponse.optString("message", "Error")} ($statusCode)"
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -33,7 +34,7 @@ object PorkApiClient {
 
     fun fetchPorks(context: Context, onSuccess: (JSONObject) -> Unit, onError: (String) -> Unit) {
         val reqQueue = Volley.newRequestQueue(context)
-        val url = "${apiUrl}?list=all"
+        val url = "${API_URL}?list=all"
 
         val listener = Response.Listener<String> { response ->
             val responseJSON = JSONObject(response)
@@ -57,9 +58,5 @@ object PorkApiClient {
         }
 
         reqQueue.add(request)
-    }
-
-    fun getWebUrl(): String {
-        return webUrl
     }
 }

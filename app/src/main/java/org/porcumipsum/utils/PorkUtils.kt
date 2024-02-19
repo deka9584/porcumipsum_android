@@ -6,18 +6,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
-import org.porcumipsum.fragments.CreateQrFragment
-import org.porcumipsum.fragments.ScanQrFragment
+import org.porcumipsum.fragments.sheets.CreateQrFragment
+import org.porcumipsum.fragments.sheets.ScanQrFragment
 
 object PorkUtils {
-    private const val CREATE_QR_FRAGMENT_TAG = "CreateQrFragment"
-    private const val SCAN_QR_FRAGMENT_TAG = "ScanQrFragment"
 
     fun copyToClipboard(context: Context, text: CharSequence?) {
         val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -58,15 +55,15 @@ object PorkUtils {
     }
 
     fun showCreateQrSheet(fragmentManager: FragmentManager, text: String) {
-        if (fragmentManager.findFragmentByTag(CREATE_QR_FRAGMENT_TAG) == null) {
+        if (fragmentManager.findFragmentByTag(CreateQrFragment.TAG) == null) {
             CreateQrFragment.newInstance(text)
-                .show(fragmentManager, CREATE_QR_FRAGMENT_TAG)
+                .show(fragmentManager, CreateQrFragment.TAG)
         }
     }
 
     fun showScanQrSheet(fragmentManager: FragmentManager) {
-        if (fragmentManager.findFragmentByTag(SCAN_QR_FRAGMENT_TAG) == null) {
-            ScanQrFragment().show(fragmentManager, SCAN_QR_FRAGMENT_TAG)
+        if (fragmentManager.findFragmentByTag(ScanQrFragment.TAG) == null) {
+            ScanQrFragment().show(fragmentManager, ScanQrFragment.TAG)
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.porcumipsum.fragments
+package org.porcumipsum.fragments.sheets
 
 import android.Manifest
 import android.app.Dialog
@@ -99,5 +99,9 @@ class ScanQrFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
+    }
+
+    companion object {
+        const val TAG = "ScanQrFragment"
     }
 }

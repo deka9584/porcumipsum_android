@@ -1,4 +1,4 @@
-package org.porcumipsum.fragments
+package org.porcumipsum.fragments.sheets
 
 import android.app.Dialog
 import android.content.ClipData
@@ -156,6 +156,7 @@ class CreateQrFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
+        const val TAG = "CreateQrFragment"
         private const val ARG_PARAM1 = "param1"
 
         @JvmStatic
